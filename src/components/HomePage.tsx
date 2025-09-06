@@ -21,7 +21,7 @@ const HomePage = () => {
     return value;
   }
 
-  const url = getEnvVar("NEXT_PUBLIC_API_URL");
+  const url = getEnvVar("NEXT_PUBLIC_DATABASE_URL");
 
   const [productos, setProductos] = useState<Producto[]>([]);
   const [loading, setLoading] = useState(true);
