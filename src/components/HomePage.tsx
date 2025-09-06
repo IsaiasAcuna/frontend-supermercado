@@ -15,13 +15,21 @@ type Producto = {
 
 const HomePage = () => {
 
+  function getEnvVar(name: string): string {
+    const value = process.env[name];
+    if (!value) throw new Error(`La variable de entorno ${name} no está definida.`);
+    return value;
+  }
+
+  const url = getEnvVar("NEXT_PUBLIC_API_URL");
+
   const [productos, setProductos] = useState<Producto[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function cargarProductos() {
       try {
-        const res = await fetch('https://web-descuentos.onrender.com/api/productos');
+        const res = await fetch(url);
         const data = await res.json();
         setProductos(data);
       } catch (err) {
