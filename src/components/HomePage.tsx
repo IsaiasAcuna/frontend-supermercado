@@ -15,21 +15,16 @@ type Producto = {
 
 const HomePage = () => {
 
-  function getEnvVar(name: string): string {
-    const value = process.env[name];
-    if (!value) throw new Error(`La variable de entorno ${name} no está definida.`);
-    return value;
-  }
-
-  const url = getEnvVar("NEXT_PUBLIC_DATABASE_URL");
-
   const [productos, setProductos] = useState<Producto[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function cargarProductos() {
       try {
-        const res = await fetch(url);
+         const url = process.env.NEXT_PUBLIC_DATABASE_URL;
+        if (!url) throw new Error("NEXT_PUBLIC_DATABASE_URL no está definida");
+
+        const res = await fetch(`${url}/api/productos`);
         const data = await res.json();
         setProductos(data);
       } catch (err) {
